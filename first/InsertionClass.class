@@ -1,0 +1,54 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class InsertionClass {
+   public InsertionClass() {
+   }
+
+   public static void main(String[] var0) {
+      InsertData();
+   }
+
+   public static Connection getConnection() {
+      try {
+         String var0 = "com.mysql.cj.jdbc.Driver";
+         String var1 = "jdbc:mysql://localhost:3306/Nesfield";
+         String var2 = "root";
+         String var3 = "Nishant123";
+         Class.forName(var0);
+         Connection var4 = DriverManager.getConnection(var1, var2, var3);
+         System.out.println("Database Connected");
+         return var4;
+      } catch (Exception var5) {
+         System.err.println("Some error:" + String.valueOf(var5));
+         return null;
+      }
+   }
+
+   private static void InsertData() {
+      try {
+         Statement var0 = getConnection().createStatement();
+         String var1 = "INSERT IGNORE INTO nesfield_student (roll_no, name, email, address) VALUES (1, 'Nishant', 'nishantsingh@gmail.com', 'Thaiba'), (2, 'Ishwor', 'dulalishwor@gmail.com', 'Dhapakhel'),(3, 'Prashant', 'nooidoo@gmail.com', 'Dhapakhel'),(4, 'Sujan', 'lamasujan@gmail.com', 'Dhapakhel')";
+         int var2 = var0.executeUpdate(var1);
+         System.out.println("" + var2 + "row(s) inserted.");
+         String var3 = "SELECT  roll_no, name, email, address FROM nesfield_student";
+         ResultSet var4 = var0.executeQuery(var3);
+         System.out.println("Current table data");
+
+         while(var4.next()) {
+            int var5 = var4.getInt("roll_no");
+            String var6 = var4.getString("name");
+            String var7 = var4.getString("email");
+            String var8 = var4.getString("address");
+            System.out.println("" + var5 + "|" + var6 + "|" + var7 + "|" + var8 + "|");
+         }
+      } catch (SQLException var9) {
+         System.err.println("Error" + String.valueOf(var9));
+      }
+
+   }
+}
